@@ -470,7 +470,7 @@ async function iniciar() {
       console.warn('[aviso] Subindo sem DATABASE_URL — configure-a antes de usar a API.');
     }
     app.listen(PORT, () => {
-      console.log(`\n🜲  Ficha de RPG rodando em http://localhost:${5432}\n`);
+      console.log(`\n🜲  Ficha de RPG rodando em http://localhost:${PORT}\n`);
     });
   } catch (e) {
     console.error('[fatal] Falha ao iniciar:', e);
