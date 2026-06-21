@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha de Personagem — RPG de Mesa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Camada decorativa de constelações/triângulos (atrás de tudo) -->
+  <div class="fundo-constelacao" aria-hidden="true"></div>
+
+  <!-- ===================================================================
+       TELA 1 — AUTENTICAÇÃO (login / registro)
+  ==================================================================== -->
+  <main id="tela-auth" class="tela tela-centralizada">
+    <div class="cartao-auth">
+      <div class="marca">
+        <span class="marca-glifo">🜲</span>
+        <h1>Ficha de Personagem</h1>
+        <p class="marca-sub">Crie, gerencie e compartilhe suas fichas de RPG.</p>
+      </div>
+
+      <div class="abas-auth">
+        <button class="aba-auth ativa" data-modo="login">Entrar</button>
+        <button class="aba-auth" data-modo="registro">Criar Conta</button>
+      </div>
+
+      <form id="form-auth" autocomplete="off">
+        <label class="campo">
+          <span>Nome de usuário</span>
+          <input type="text" id="auth-usuario" required autocomplete="username" />
+        </label>
+
+        <label class="campo">
+          <span>Senha</span>
+          <input type="password" id="auth-senha" required autocomplete="current-password" />
+        </label>
+
+        <div class="campo seletor-papel" id="bloco-papel" hidden>
+          <span>Eu sou…</span>
+          <div class="papel-opcoes">
+            <button type="button" class="papel-btn ativa" data-papel="jogador">Jogador</button>
+            <button type="button" class="papel-btn" data-papel="mestre">Mestre</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primario" id="btn-auth">Entrar</button>
+        <p class="aviso-auth" id="aviso-auth" role="alert"></p>
+      </form>
+    </div>
+  </main>
+
+  <!-- ===================================================================
+       TELA 2 — LISTA DE PERSONAGENS
+  ==================================================================== -->
+  <main id="tela-lista" class="tela" hidden>
+    <div class="conteudo-lista">
+      <header class="cabecalho-lista">
+        <div>
+          <h2 id="lista-titulo">Meus personagens</h2>
+          <p class="lista-saudacao" id="lista-saudacao"></p>
+        </div>
+        <button class="btn-fantasma" id="btn-sair">Sair</button>
+      </header>
+
+      <!-- Ações do jogador (criar personagem) -->
+      <div class="acoes-lista" id="acoes-jogador">
+        <button class="btn-primario" id="btn-novo-personagem">+ Criar novo personagem</button>
+      </div>
+
+      <div class="grade-personagens" id="grade-personagens">
+        <!-- cartões inseridos via JS -->
+      </div>
+
+      <p class="vazio-lista" id="vazio-lista" hidden></p>
+    </div>
+  </main>
+
+  <!-- ===================================================================
+       TELA 3 — FICHA DO PERSONAGEM
+  ==================================================================== -->
+  <main id="tela-ficha" class="tela" hidden>
+    <div class="topo-ficha">
+      <button class="btn-fantasma" id="btn-voltar">← Voltar para meus personagens</button>
+      <span class="status-salvo" id="status-salvo"></span>
+    </div>
+
+    <div class="painel-duplo">
+      <!-- ----------- PAINEL ESQUERDO: GERAL ----------- -->
+      <section class="painel painel-esquerdo">
+        <div class="cabecalho-painel">
+          <span class="aba-fixa ativa">Geral</span>
+        </div>
+        <div class="corpo-painel" id="painel-geral">
+          <!-- conteúdo renderizado via JS -->
+        </div>
+      </section>
+
+      <!-- ----------- PAINEL DIREITO: ABAS ----------- -->
+      <section class="painel painel-direito">
+        <div class="cabecalho-painel abas-direita">
+          <button class="aba ativa" data-aba="habilidades">Habilidades</button>
+          <button class="aba" data-aba="equipamentos">Equipamentos</button>
+          <button class="aba" data-aba="anotacoes">Anotações</button>
+        </div>
+        <div class="corpo-painel">
+          <div class="conteudo-aba" data-conteudo="habilidades" id="aba-habilidades"></div>
+          <div class="conteudo-aba" data-conteudo="equipamentos" id="aba-equipamentos" hidden></div>
+          <div class="conteudo-aba" data-conteudo="anotacoes" id="aba-anotacoes" hidden></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modal genérico (vincular mestre / confirmar exclusão) -->
+  <div id="modal" class="modal-fundo" hidden>
+    <div class="modal-caixa">
+      <h3 id="modal-titulo"></h3>
+      <p id="modal-texto"></p>
+      <div class="campo" id="modal-campo-bloco" hidden>
+        <input type="text" id="modal-input" />
+      </div>
+      <p class="aviso-auth" id="modal-aviso"></p>
+      <div class="modal-acoes">
+        <button class="btn-fantasma" id="modal-cancelar">Cancelar</button>
+        <button class="btn-primario" id="modal-confirmar">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- input de arquivo escondido para upload de imagem -->
+  <input type="file" id="input-imagem" accept="image/*" hidden />
+
+  <script src="script.js"></script>
+</body>
+</html>

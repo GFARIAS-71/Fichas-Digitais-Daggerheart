@@ -1,0 +1,689 @@
+/* ==========================================================================
+   Ficha de Personagem Digital — style.css
+   Tema escuro, destaque roxo/violeta, fundo de constelações.
+   --------------------------------------------------------------------------
+   Tokens de design
+   - Fundo página ........ #0d0d0d
+   - Painéis ............. #1a1a1a / #1e1e1e
+   - Destaque (roxo) ..... #7c3aed  (hover #8b5cf6)
+   - Texto ............... #ededed / #a8a8b3 (secundário)
+   - Tipografia .......... Inter (corpo) + Space Grotesk (títulos)
+   ========================================================================== */
+
+:root {
+  --bg:           #0d0d0d;
+  --painel:       #1a1a1a;
+  --painel-2:     #1e1e1e;
+  --painel-3:     #242424;
+  --campo-bg:     #161616;
+  --borda:        #2c2c2e;
+  --borda-clara:  #3a3a3d;
+  --roxo:         #7c3aed;
+  --roxo-claro:   #8b5cf6;
+  --roxo-suave:   rgba(124, 58, 237, 0.16);
+  --texto:        #ededed;
+  --texto-2:      #a3a3ad;
+  --texto-3:      #6d6d76;
+  --vermelho:     #e5484d;
+  --amarelo:      #f5c518;
+  --raio:         9px;
+  --raio-sm:      7px;
+  --sombra:       0 6px 18px rgba(0, 0, 0, 0.45);
+  --sombra-sm:    0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--texto);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .titulo-secao, .aba, .aba-fixa, .btn-primario {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   Fundo decorativo: triângulos/constelações sutis, baixa opacidade
+   -------------------------------------------------------------------------- */
+.fundo-constelacao {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,0.05) 0 1.4px, transparent 1.6px),
+    radial-gradient(circle at 78% 32%, rgba(255,255,255,0.05) 0 1.4px, transparent 1.6px),
+    radial-gradient(circle at 42% 72%, rgba(255,255,255,0.045) 0 1.4px, transparent 1.6px),
+    radial-gradient(circle at 88% 84%, rgba(255,255,255,0.045) 0 1.4px, transparent 1.6px),
+    radial-gradient(circle at 26% 90%, rgba(255,255,255,0.04) 0 1.2px, transparent 1.4px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.035' stroke-width='1'%3E%3Cpath d='M30 40 L110 18 L70 96 Z'/%3E%3Cpath d='M150 60 L196 120 L120 130 Z'/%3E%3Cpath d='M40 150 L96 132 L84 196 Z'/%3E%3Cpath d='M120 150 L188 168 L150 200 Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: auto, auto, auto, auto, auto, 440px 440px;
+}
+
+/* --------------------------------------------------------------------------
+   Telas
+   -------------------------------------------------------------------------- */
+.tela { width: 100%; }
+.tela[hidden] { display: none !important; }
+
+.tela-centralizada {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* --------------------------------------------------------------------------
+   Componentes de formulário base
+   -------------------------------------------------------------------------- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.campo > span {
+  font-size: 12.5px;
+  color: var(--texto-2);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  background: var(--campo-bg);
+  border: 1px solid var(--borda);
+  color: var(--texto);
+  border-radius: var(--raio-sm);
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 14.5px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+textarea { resize: vertical; min-height: 80px; line-height: 1.55; }
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--roxo);
+  box-shadow: 0 0 0 3px var(--roxo-suave);
+}
+input::placeholder, textarea::placeholder { color: var(--texto-3); }
+
+/* esconde as setas dos number inputs para visual mais limpo */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%23a3a3ad' stroke-width='2'%3E%3Cpath d='M3 5l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  cursor: pointer;
+}
+select option { background: var(--painel-2); }
+
+/* Botões -------------------------------------------------------------------*/
+.btn-primario {
+  background: var(--roxo);
+  color: #fff;
+  border: none;
+  border-radius: var(--raio-sm);
+  padding: 11px 18px;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+.btn-primario:hover { background: var(--roxo-claro); }
+.btn-primario:active { transform: translateY(1px); }
+
+.btn-fantasma {
+  background: transparent;
+  color: var(--texto-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-sm);
+  padding: 9px 14px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.btn-fantasma:hover { color: var(--texto); border-color: var(--borda-clara); background: rgba(255,255,255,0.03); }
+
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+  outline: 2px solid var(--roxo-claro);
+  outline-offset: 2px;
+}
+
+.aviso-auth {
+  min-height: 18px;
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--vermelho);
+}
+.aviso-auth.ok { color: #34d399; }
+
+/* ==========================================================================
+   TELA AUTENTICAÇÃO
+   ========================================================================== */
+.cartao-auth {
+  width: 100%;
+  max-width: 400px;
+  background: var(--painel);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 30px 28px 26px;
+  box-shadow: var(--sombra);
+}
+.marca { text-align: center; margin-bottom: 22px; }
+.marca-glifo { font-size: 30px; color: var(--roxo-claro); display: block; }
+.marca h1 { font-size: 22px; margin: 8px 0 4px; letter-spacing: -0.01em; }
+.marca-sub { color: var(--texto-2); font-size: 13.5px; margin: 0; }
+
+.abas-auth {
+  display: flex;
+  gap: 4px;
+  background: var(--campo-bg);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 4px;
+  margin-bottom: 22px;
+}
+.aba-auth {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--texto-2);
+  padding: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--raio-sm);
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: background 0.15s, color 0.15s;
+}
+.aba-auth.ativa { background: var(--roxo); color: #fff; }
+
+.seletor-papel .papel-opcoes { display: flex; gap: 8px; }
+.papel-btn {
+  flex: 1;
+  background: var(--campo-bg);
+  border: 1px solid var(--borda);
+  color: var(--texto-2);
+  border-radius: var(--raio-sm);
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.papel-btn.ativa { border-color: var(--roxo); color: var(--texto); background: var(--roxo-suave); }
+#btn-auth { width: 100%; margin-top: 6px; }
+
+/* ==========================================================================
+   TELA LISTA DE PERSONAGENS
+   ========================================================================== */
+.conteudo-lista {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+.cabecalho-lista {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.cabecalho-lista h2 { font-size: 26px; margin: 0; letter-spacing: -0.01em; }
+.lista-saudacao { color: var(--texto-2); margin: 4px 0 0; font-size: 14px; }
+
+.acoes-lista { margin: 22px 0 26px; }
+
+.grade-personagens {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+  gap: 16px;
+}
+
+.cartao-personagem {
+  background: var(--painel-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 18px;
+  cursor: pointer;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  transition: border-color 0.15s, transform 0.08s, box-shadow 0.15s;
+  position: relative;
+}
+.cartao-personagem:hover {
+  border-color: var(--roxo);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-sm);
+}
+.cartao-avatar {
+  width: 54px; height: 54px;
+  border-radius: var(--raio-sm);
+  background: var(--painel-3) center/cover no-repeat;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--texto-3);
+  flex-shrink: 0;
+  border: 1px solid var(--borda);
+}
+.cartao-info { min-width: 0; flex: 1; }
+.cartao-info h3 {
+  margin: 0 0 2px; font-size: 16px; font-family: 'Space Grotesk', sans-serif;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cartao-info .classe { color: var(--roxo-claro); font-size: 13px; font-weight: 500; }
+.cartao-info .dono { color: var(--texto-3); font-size: 12.5px; margin-top: 2px; }
+
+.cartao-excluir {
+  position: absolute; top: 10px; right: 10px;
+  background: transparent; border: none; color: var(--texto-3);
+  cursor: pointer; font-size: 16px; line-height: 1; padding: 4px; border-radius: 6px;
+  opacity: 0; transition: opacity 0.15s, color 0.15s, background 0.15s;
+}
+.cartao-personagem:hover .cartao-excluir { opacity: 1; }
+.cartao-excluir:hover { color: var(--vermelho); background: rgba(229,72,77,0.12); }
+
+.vazio-lista { color: var(--texto-2); text-align: center; margin-top: 40px; font-size: 15px; }
+
+/* ==========================================================================
+   TELA FICHA
+   ========================================================================== */
+.topo-ficha {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 22px 24px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.status-salvo { font-size: 12.5px; color: var(--texto-3); transition: color 0.2s; }
+.status-salvo.salvando { color: var(--amarelo); }
+.status-salvo.salvo { color: #34d399; }
+
+.painel-duplo {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 8px 24px 56px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.painel {
+  background: var(--painel);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  box-shadow: var(--sombra-sm);
+  overflow: hidden;
+}
+.cabecalho-painel {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid var(--borda);
+  background: var(--painel-2);
+}
+.aba, .aba-fixa {
+  border: none;
+  background: transparent;
+  color: var(--texto-2);
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--raio-sm);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.aba-fixa { cursor: default; }
+.aba.ativa, .aba-fixa.ativa { background: var(--roxo); color: #fff; }
+.abas-direita { flex-wrap: wrap; }
+
+.corpo-painel { padding: 20px; }
+
+/* Seções dentro dos painéis ------------------------------------------------*/
+.titulo-secao {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--texto-2);
+  margin: 26px 0 12px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--borda);
+  font-weight: 600;
+}
+.titulo-secao:first-child { margin-top: 0; }
+.subtitulo { font-size: 13px; color: var(--roxo-claro); font-weight: 600; margin: 16px 0 8px; }
+
+/* ---- Imagem do personagem ---- */
+.area-imagem {
+  width: 116px; height: 116px;
+  margin: 0 auto 18px;
+  border-radius: var(--raio);
+  background: var(--campo-bg) center/cover no-repeat;
+  border: 1px dashed var(--borda-clara);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--texto-3);
+  transition: border-color 0.15s;
+  overflow: hidden;
+}
+.area-imagem:hover { border-color: var(--roxo); }
+.area-imagem svg { width: 30px; height: 30px; }
+
+/* ---- Atributos ---- */
+.grade-atributos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.cartao-atributo {
+  background: var(--painel-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 12px 8px 10px;
+  text-align: center;
+  position: relative;
+}
+.cartao-atributo .valor {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  width: 100%;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: var(--texto);
+  padding: 4px 0;
+}
+.cartao-atributo .valor:focus { box-shadow: none; }
+.cartao-atributo .rotulo {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--texto-2); margin-top: 4px; display: block;
+}
+.attr-btns { display: flex; justify-content: center; gap: 6px; margin-top: 6px; }
+.attr-btn {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: var(--painel-3); border: 1px solid var(--borda);
+  color: var(--texto-2); cursor: pointer; font-size: 14px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s;
+}
+.attr-btn:hover { border-color: var(--roxo); color: var(--texto); }
+
+/* ---- Evasão ---- */
+.linha-evasao { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.evasao-box { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.evasao-box input {
+  width: 74px; text-align: center; font-size: 24px; font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif; padding: 8px;
+}
+.evasao-box .mini { font-size: 11px; color: var(--texto-2); text-transform: uppercase; letter-spacing: 0.06em; }
+.comeca-em { font-size: 13px; color: var(--texto-2); display: flex; align-items: center; gap: 8px; }
+.comeca-em input { width: 56px; text-align: center; font-weight: 600; }
+
+/* ---- Limiares de Dano (componente assinatura) ---- */
+.limiares-nota {
+  font-size: 12.5px; color: var(--texto-2); text-align: center;
+  margin: 4px 0 14px; font-style: italic;
+}
+.limiares-trilha {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.pill {
+  background: var(--painel-3);
+  border: 1px solid var(--borda-clara);
+  border-radius: var(--raio-sm);
+  padding: 9px 8px;
+  text-align: center;
+  min-width: 78px;
+  display: flex; flex-direction: column; gap: 3px; justify-content: center;
+}
+.pill .pill-titulo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em;
+  text-transform: uppercase; color: var(--texto); white-space: nowrap;
+}
+.pill .pill-sub { font-size: 10px; color: var(--texto-2); white-space: nowrap; }
+.pill.grave { border-color: var(--roxo); background: var(--roxo-suave); }
+.pill.grave .pill-titulo { color: var(--roxo-claro); }
+
+.seta-limiar {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--roxo-claro); font-size: 14px; font-weight: 700;
+  flex-shrink: 0;
+}
+.limiares-trilha input.limiar-num {
+  width: 50px; text-align: center; font-weight: 700; font-size: 16px;
+  font-family: 'Space Grotesk', sans-serif; align-self: center;
+  padding: 8px 2px; flex-shrink: 0;
+}
+
+/* ---- Cartões medidores de recurso ---- */
+.grade-recursos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+.cartao-recurso {
+  background: var(--painel-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 14px;
+}
+.cartao-recurso h4 {
+  margin: 0 0 2px; font-size: 14px; text-align: center;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.cartao-recurso .desc {
+  font-size: 11px; color: var(--texto-2); text-align: center;
+  margin: 0 0 10px; line-height: 1.4; min-height: 28px;
+}
+.icones-recurso {
+  display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-bottom: 10px;
+}
+.icone-recurso {
+  cursor: pointer;
+  display: inline-flex;
+  transition: transform 0.1s;
+}
+.icone-recurso:hover { transform: scale(1.12); }
+.icone-recurso svg { width: 19px; height: 19px; display: block; }
+
+.controle-qtd {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.controle-qtd button {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: var(--painel-3); border: 1px solid var(--borda);
+  color: var(--texto-2); cursor: pointer; font-size: 15px; line-height: 1;
+}
+.controle-qtd button:hover { border-color: var(--roxo); color: var(--texto); }
+.controle-qtd .qtd-label { font-size: 12px; color: var(--texto-2); min-width: 54px; text-align: center; }
+
+/* ---- Experiências ---- */
+.linha-experiencia { display: flex; gap: 10px; margin-bottom: 9px; }
+.linha-experiencia input[type="text"] { flex: 1; }
+.linha-experiencia .exp-bonus { width: 64px; text-align: center; font-weight: 600; flex-shrink: 0; }
+
+/* ---- Ouro ---- */
+.grade-ouro { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ouro-box { display: flex; flex-direction: column; gap: 5px; }
+.ouro-box span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-2); text-align: center; }
+.ouro-box input { text-align: center; font-weight: 600; }
+
+/* ==========================================================================
+   ACCORDIONS (habilidades, armas, armadura, inventário, anotações)
+   ========================================================================== */
+.accordion {
+  background: var(--painel-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.accordion-cabeca {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+.accordion-cabeca:hover { background: rgba(255,255,255,0.02); }
+.accordion-titulo {
+  flex: 1; min-width: 0;
+  background: transparent; border: none; color: var(--texto);
+  font-size: 14.5px; font-weight: 600; font-family: 'Space Grotesk', sans-serif;
+}
+.accordion-titulo:focus { box-shadow: none; }
+
+/* botão de status da habilidade (ativa/inativa) */
+.btn-status {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid var(--borda-clara); background: transparent;
+  cursor: pointer; flex-shrink: 0; position: relative;
+  transition: all 0.15s;
+}
+.btn-status.ativa { background: var(--roxo); border-color: var(--roxo); box-shadow: 0 0 0 3px var(--roxo-suave); }
+.btn-status[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
+  background: #000; color: #fff; font-size: 11px; padding: 5px 8px;
+  border-radius: 6px; white-space: nowrap; z-index: 5; border: 1px solid var(--borda-clara);
+  font-family: 'Inter', sans-serif; font-weight: 400;
+}
+
+.chevron {
+  flex-shrink: 0; color: var(--texto-2);
+  transition: transform 0.2s; display: flex;
+}
+.accordion.aberto .chevron { transform: rotate(180deg); }
+
+.accordion-corpo {
+  display: none;
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--borda);
+}
+.accordion.aberto .accordion-corpo { display: block; padding-top: 12px; }
+.accordion-corpo textarea { min-height: 70px; }
+
+.btn-adicionar {
+  width: 100%;
+  background: transparent;
+  border: 1px dashed var(--borda-clara);
+  color: var(--texto-2);
+  border-radius: var(--raio);
+  padding: 11px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 0.15s;
+}
+.btn-adicionar:hover { border-color: var(--roxo); color: var(--roxo-claro); }
+
+.btn-remover-card {
+  background: transparent; border: none; color: var(--texto-3);
+  cursor: pointer; font-size: 13px; padding: 6px 2px; margin-top: 4px;
+}
+.btn-remover-card:hover { color: var(--vermelho); }
+
+/* ---- Proficiência (6 círculos) ---- */
+.proficiencia { display: flex; gap: 8px; margin-bottom: 4px; }
+.circulo-prof {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid var(--borda-clara); background: transparent;
+  cursor: pointer; transition: all 0.12s;
+}
+.circulo-prof.preenchido { background: var(--texto); border-color: var(--texto); }
+
+/* bloco de subseção de arma / armadura */
+.bloco-equip {
+  background: var(--painel-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+.modal-fundo {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-fundo[hidden] { display: none; }
+.modal-caixa {
+  background: var(--painel);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%; max-width: 380px;
+  box-shadow: var(--sombra);
+}
+.modal-caixa h3 { margin: 0 0 8px; font-size: 18px; }
+.modal-caixa > p { color: var(--texto-2); font-size: 14px; margin: 0 0 14px; }
+.modal-acoes { display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px; }
+
+/* link discreto p/ vincular mestre dentro da ficha */
+.linha-mestre {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; flex-wrap: wrap;
+  background: var(--painel-2); border: 1px solid var(--borda);
+  border-radius: var(--raio); padding: 12px 14px; margin-top: 8px;
+}
+.linha-mestre .rotulo-mestre { font-size: 13px; color: var(--texto-2); }
+.linha-mestre .nome-mestre { color: var(--roxo-claro); font-weight: 600; }
+
+/* ==========================================================================
+   RESPONSIVO — painéis empilham em telas estreitas
+   ========================================================================== */
+@media (max-width: 860px) {
+  .painel-duplo { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  body { font-size: 14.5px; }
+  .grade-recursos { grid-template-columns: 1fr; }
+  .grade-atributos { gap: 8px; }
+  .conteudo-lista { padding: 28px 16px 48px; }
+  .painel-duplo { padding: 8px 14px 48px; }
+  .topo-ficha { padding: 16px 14px 4px; }
+  .limiares-trilha input.limiar-num { width: 44px; }
+  .pill { min-width: 74px; padding: 8px 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
